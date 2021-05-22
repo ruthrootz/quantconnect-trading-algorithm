@@ -1,17 +1,14 @@
 class AlertMagentaAlligator(QCAlgorithm):
 
     def Initialize(self):
-        self.SetStartDate(2020, 11, 20)  # Set Start Date
-        self.SetCash(100000)  # Set Strategy Cash
-        # self.AddEquity("SPY", Resolution.Minute)
-
+        self.SetStartDate(2020, 11, 20)
+        self.SetCash(100000)
+        self.AddEquity('SBUX', Resolution.Minute)
+        self.AddEquity('TSLA', Resolution.Minute)
+        self.AddEquity('BAC', Resolution.Minute)
 
     def OnData(self, data):
-        '''OnData event is the primary entry point for your algorithm. Each new data point will be pumped in here.
-            Arguments:
-                data: Slice object keyed by symbol containing the stock data
-        '''
-
-        # if not self.Portfolio.Invested:
-        #    self.SetHoldings("SPY", 1)
-        
+        if not self.Portfolio.Invested:
+            self.SetHoldings('SBUX', 0.30)
+            self.SetHoldings('TSLA', 0.30)
+            self.SetHoldings('BAC', 0.30)
