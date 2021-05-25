@@ -9,18 +9,24 @@ class AlertMagentaAlligator(QCAlgorithm):
         self.sbux = self.AddEquity('SBUX', Resolution.Daily)
         self.tsla = self.AddEquity('TSLA', Resolution.Daily)
         self.bac = self.AddEquity('BAC', Resolution.Daily)
-        self.sbuxMomentum = self.MOMP('SBUX', 30, Resolution.Daily)
-        self.tslaMomentum = self.MOMP('TSLA', 30, Resolution.Daily)
-        self.bacMomentum = self.MOMP('BAC', 30, Resolution.Daily)
+        self.sbuxMomentum = self.MOMP('SBUX', 50, Resolution.Daily)
+        self.tslaMomentum = self.MOMP('TSLA', 50, Resolution.Daily)
+        self.bacMomentum = self.MOMP('BAC', 50, Resolution.Daily)
 
     def OnData(self, data):
         if self.IsWarmingUp:
             return
         if not self.Time.weekday() == 1:
             return
-        # if self.spyMomentum.Current.Value > self.bondMomentum.Current.Value:
-        #     self.Liquidate("BND")
-        #     self.SetHoldings("SPY", 1)
-        # else:
-        #     self.Liquidate("SPY")
-        #     self.SetHoldings("BND", 1)
+        if self.sbuxMomentum.Current.Value > self.tslaMomentum.Current.Value and self.sbuxMomentum.Current.Value > self.bacMomentum.Current.Value:
+            self.Liquidate('TSLA')
+            self.Liquidate('BAC')
+            self.SetHoldings('SBUX', 1)
+        if self.tslaMomentum.Current.Value > self.sbuxMomentum.Current.Value and self.sbuxMomentum.Current.Value > self.bacMomentum.Current.Value:
+            self.Liquidate('SBUX')
+            self.Liquidate('BAC')
+            self.SetHoldings('TSLA', 1)
+        if self.bacMomentum.Current.Value > self.tslaMomentum.Current.Value and self.sbuxMomentum.Current.Value > self.sbuxMomentum.Current.Value:
+            self.Liquidate('TSLA')
+            self.Liquidate('SBUX')
+            self.SetHoldings('BAC', 1)
