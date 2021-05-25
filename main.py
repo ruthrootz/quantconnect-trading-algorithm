@@ -22,11 +22,11 @@ class AlertMagentaAlligator(QCAlgorithm):
             self.Liquidate('TSLA')
             self.Liquidate('BAC')
             self.SetHoldings('SBUX', 1)
-        if self.tslaMomentum.Current.Value > self.sbuxMomentum.Current.Value and self.sbuxMomentum.Current.Value > self.bacMomentum.Current.Value:
+        if self.tslaMomentum.Current.Value > self.sbuxMomentum.Current.Value and self.tslaMomentum.Current.Value > self.bacMomentum.Current.Value:
             self.Liquidate('SBUX')
             self.Liquidate('BAC')
             self.SetHoldings('TSLA', 1)
-        if self.bacMomentum.Current.Value > self.tslaMomentum.Current.Value and self.sbuxMomentum.Current.Value > self.sbuxMomentum.Current.Value:
+        if self.bacMomentum.Current.Value > self.tslaMomentum.Current.Value and self.bacMomentum.Current.Value > self.sbuxMomentum.Current.Value:
             self.Liquidate('TSLA')
             self.Liquidate('SBUX')
             self.SetHoldings('BAC', 1)
