@@ -6,9 +6,21 @@ class AlertMagentaAlligator(QCAlgorithm):
         self.AddEquity('SBUX', Resolution.Minute)
         self.AddEquity('TSLA', Resolution.Minute)
         self.AddEquity('BAC', Resolution.Minute)
+        self.sbux = self.AddEquity('SBUX', Resolution.Daily)
+        self.tsla = self.AddEquity('TSLA', Resolution.Daily)
+        self.bac = self.AddEquity('BAC', Resolution.Daily)
+        self.sbuxMomentum = self.MOMP('SBUX', 30, Resolution.Daily)
+        self.tslaMomentum = self.MOMP('TSLA', 30, Resolution.Daily)
+        self.bacMomentum = self.MOMP('BAC', 30, Resolution.Daily)
 
     def OnData(self, data):
-        if not self.Portfolio.Invested:
-            self.SetHoldings('SBUX', 0.30)
-            self.SetHoldings('TSLA', 0.30)
-            self.SetHoldings('BAC', 0.30)
+        if self.IsWarmingUp:
+            return
+        if not self.Time.weekday() == 1:
+            return
+        # if self.spyMomentum.Current.Value > self.bondMomentum.Current.Value:
+        #     self.Liquidate("BND")
+        #     self.SetHoldings("SPY", 1)
+        # else:
+        #     self.Liquidate("SPY")
+        #     self.SetHoldings("BND", 1)
