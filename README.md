@@ -1,2 +1,2 @@
-# quantconnect-trading-algorithm
+# quantconnect trading algorithm
 my first QuantConnect trading algorithm
